@@ -1,11 +1,8 @@
 from igraph import *
 
 # First version of the propagation algorithm
-
 def lp1(max_iteration, data):
     for v in range(max_iteration):
-        # print("iter" + str(v))
-
         # Nodes at level i-1 send info to their neighbours at level i
         tolabel_count = 0
         for i in range(len(data)):
@@ -23,12 +20,10 @@ def lp1(max_iteration, data):
                         data[to_label].append(tmp)
                 data[i][2] = []
 
-        #print(tolabel_count)
-
         if tolabel_count == 0:
             break
+            
         # For each node at level i the final label is decided
-
         for i in range(len(data)):
             len_line = len(data[i])
             if len_line > 3:
@@ -53,13 +48,9 @@ def lp1(max_iteration, data):
 
 
 # Second version of the propagation algorithm
-
 def lp2(max_iteration, data):
     for v in range(max_iteration):
-        # print("iter" + str(v))
-
         # Nodes at level i-1 send info to their neighbours at level i
-
         tolabel_count = 0
         for i in range(len(data)):
             if int(data[i][1] != 0) and len(data[i][2]) > 0:
@@ -78,13 +69,10 @@ def lp2(max_iteration, data):
                         # print(data[to_label][3])
                 data[i][2] = []
 
-        #print(tolabel_count)
-
         if tolabel_count == 0:
             break
 
         # Nodes at level i exchange infromations between each other
-
         for i in range(len(data)):
             if int(data[i][1] == 0) and len(data[i]) > 4:
                 for k in range(len(data[i][2])):
@@ -97,7 +85,6 @@ def lp2(max_iteration, data):
                             data[data[i][2][k][0]].append(new_tmp)
 
         # For each node at level i the final label is decided
-
         for i in range(len(data)):
             len_line = len(data[i])
             if len_line > 4:
