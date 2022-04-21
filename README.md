@@ -27,11 +27,12 @@ conda activate ClassGraph
 ```
 
 ## Preprocessing
-ClassGraph requires two input ﬁles: one representing a graph of reads and the other containing the result of the classiﬁcation process. The labelles assigned to the reads by the pre-existing binning tool will be propagated over the graph to the still unclassified reads. ClassGraph is thought to be used with paired-end reads.
+ClassGraph requires two input ﬁles: one representing a graph of reads and the other containing the result of the classiﬁcation process. The labelles assigned to the reads by the pre-existing binning tool will be propagated over the graph to the still unclassified reads. ClassGraph is thought to be used with both paired-end and single-end reads. It can be used for short and for long reads.
 
 ### Overlap Graph
-The graph must be composed as follows: the nodes represent the reads and the edges their overlaps. The file must be presented in asqg format.
+The graph must be composed as follows: the nodes represent the reads and the weights of the edges their overlaps. The file must be presented in asqg format.
 One possible tool that satisfies these requirements is [**SGA**](https://github.com/jts/sga) (String Graph Assembler), an assembler based on the overlap-layout-consensus.
+If you are using an assembler that does not use exact overlaps to build the graph, you can modify the asqg format by adding a final column containing the values of the weights you want to assign to the edges (in this case set the option --assembler 2).
 
 ### Binning Tools
 ClassGraph requires as input the result of the classification process presented as follows:
@@ -49,7 +50,7 @@ Hypothetically any metagenomic binning tool could be used for the classification
 ## Usage Example
 In order to run ReadGraph it's necessary to type on the terminal a command structured as follows:
 ```
-python3 ClassGraph.py --graph $Assembler_DIR/Graph.asqg --output $ClassGraph_Output_DIR/ --binned $Classifier_DIR/BinnedReads.out --preﬁx example1 --max_iteration 20 --lp_version 1
+python3 ClassGraph.py --graph $Assembler_DIR/Graph.asqg --output $ClassGraph_Output_DIR/ --binned $Classifier_DIR/BinnedReads.out --preﬁx example1 --max_iteration 20 --lp_version 1 --read_type 1 --assembler 1
 ```
 Where:
 ```
@@ -59,6 +60,8 @@ Where:
 --prefix          name of the output file
 --max_iteration   maximum number of iterations in the label propagation algorithm (default: 20)
 --lp_version      version of the label propagation algorithm to use (1 or 2, default: 1)
+--read_type       1 for paired-end (default), 2 for single-end reads
+--assembler       1 for asqg format (default), 2 in the case of modified asqg
 ```
 ## Getting help
 If you encounter bugs or have further questions or requests, you can raise an issue at the issue page. You can also contact Margherita Cavattoni at cavattonimargherita@gmail.com
